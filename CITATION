@@ -1,0 +1,20 @@
+citHeader("GAMens package")
+
+citEntry(
+ entry="Unpublished",
+ title="GAMens: Applies GAMbag, GAMrsm and GAMens ensemble classifiers",
+ author="K. W. De Bock, K. Coussement and D. Van den Poel",
+ note="R Package version 1.0",
+ year="2010",
+ textVersion="De Bock, K. W., Coussement, K. and Van den Poel, D. (2009) GAMens: Applies GAMbag, GAMrsm and GAMens ensemble classifiers. R Package version 1.0."
+)
+
+citEntry(
+ entry="Article",
+ title="Ensemble Classification based on generalized additive models",
+ journal="Computational Statistics & Data Analysis",
+ volume="Forthcoming (doi:10.1016/j.csda.2009.12.013)",
+ year="2010",
+ author="K. W. De Bock, K. Coussement and D. Van den Poel",
+ textVersion="De Bock, K. W., Coussement, K. and Van den Poel, D. (2010): Ensemble Classification based on generalized additive models. Computational Statistics & Data Analysis, doi:10.1016/j.csda.2009.12.013."
+)
