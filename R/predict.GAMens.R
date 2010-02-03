@@ -3,21 +3,15 @@ function(object, data,...)
 {
 	formula <- object[[2]]
 	fusion <- object[[8]]
-	targets <- data[,as.character(formula[[2]])]  
-	nclasses <- nlevels(targets)
-	target_classes <- unique(targets)
-	target_classes_s <- target_classes[order(target_classes)]
-	newtargets <- as.numeric(data[,ncol(data)] == target_classes_s[2])
-	newdata = cbind(data[,1:ncol(data)-1],newtargets)
-
+	depvar <- as.character(formula[[2]])
 	iter<-object[[3]]
-	n <- length(newdata[,1])
+	n <- length(data[,1])
 	cutoff <- 0.5
 	errors <- 1 - object[[12]]
+	target_classes_s <- unique(object$class)[order(unique(object$class))]
 
-	newdata_predictions <- data.frame(rep(0,n)) 
-	predictions_p <- data.frame(cbind(1:nrow(newdata)))
-	predictions_c <- data.frame(cbind(1:nrow(newdata)))
+	predictions_p <- data.frame(cbind(1:nrow(data)))
+	predictions_c <- data.frame(cbind(1:nrow(data)))
 	for (m in 1:iter) {
 		pred <- predict.gam(object[[1]][[m]],data,type="response")
 		pred2 <- as.data.frame(as.numeric(pred))
@@ -62,6 +56,8 @@ function(object, data,...)
 		class <- as.numeric(pred > cutoff)}
 	class <-  cbind(gsub(1,target_classes_s[[2]],class,fixed=FALSE))
 	class <-  cbind(gsub(0,target_classes_s[[1]],class,fixed=FALSE))
-	conf <- table(class, data[,as.character(formula[[2]])], dnn=c("Predicted Class", "Observed Class"))
+	if (match(depvar,names(data),nomatch=0)!=0) {
+		conf <- table(class, data[,as.character(formula[[2]])], dnn=c("Predicted Class", "Observed Class"))
+		} else { conf <- NULL }
 	output <- list(pred=pred, class=class, conf=conf)
 }

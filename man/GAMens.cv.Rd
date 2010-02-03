@@ -76,13 +76,13 @@ GAMens.cv(formula, data, cv, rsm_size=2, autoform=FALSE, iter=10,
 library(mlbench)
 data(Sonar)
 
-## Perform 10-fold cross-validation of GAMrsm ensemble on Sonar data 
+## Perform 5-fold cross-validation of GAMrsm ensemble on Sonar data 
 ## using all variables
-Sonar.cv.GAMrsm <- GAMens.cv(Class~., Sonar ,10, 3 , autoform=TRUE, iter=10, 
+Sonar.cv.GAMrsm <- GAMens.cv(Class~., Sonar ,5, 3 , autoform=TRUE, iter=10, 
 bagging=FALSE,rsm=TRUE )
 
-## Compare classification performance of GAMens, GAMrsm and GAMbag 
-## ensembles, using all variables in the Sonar dataset, based on 10-fold 
+## Compare classification performance of GAMens and GAMrsm
+## ensembles, using all variables in the Sonar dataset, based on 5-fold 
 ## cross validation runs
 Sonar.cv.GAMens <- GAMens.cv(Class~s(V1,4)+s(V2,3)+s(V3,4)+V4+V5+V6, 
 Sonar ,5, 4 , autoform=FALSE, iter=10 )
@@ -90,16 +90,12 @@ Sonar ,5, 4 , autoform=FALSE, iter=10 )
 Sonar.cv.GAMrsm <- GAMens.cv(Class~s(V1,4)+s(V2,3)+s(V3,4)+V4+V5+V6, 
 Sonar ,5, 4 , autoform=FALSE, iter=10, bagging=FALSE, rsm=TRUE )
 
-Sonar.cv.GAMbag <- GAMens.cv(Class~s(V1,4)+s(V2,3)+s(V3,4)+V4+V5+V6, 
-Sonar ,5, 4 , autoform=FALSE, iter=10, bagging=TRUE, rsm=FALSE )
-
 ## Calculate AUCs (for function colAUC, load caTools library)
 library(caTools)
 GAMens.cv.auc <- colAUC(Sonar.cv.GAMens[[2]], Sonar["Class"]=="R", 
 plotROC=FALSE)
+
 GAMrsm.cv.auc <- colAUC(Sonar.cv.GAMrsm[[2]], Sonar["Class"]=="R", 
-plotROC=FALSE)
-GAMbag.cv.auc <- colAUC(Sonar.cv.GAMbag[[2]], Sonar["Class"]=="R", 
 plotROC=FALSE)
 
 }
