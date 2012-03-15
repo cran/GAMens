@@ -104,13 +104,15 @@ function(formula, data, rsm_size=2, autoform=FALSE, iter=10, df=4, bagging=TRUE,
 		oob_predict <- predict.gam(gam_model,oob_data,type="response")
 		oob_predict_r <- as.data.frame(cbind(as.numeric(oob_predict),oob_data[,"ID"]))
 		names(oob_predict_r)[2] <- "ID"
-		names(oob_predict_r)[1] <- "pred"
+		coln <- paste("pred",m,sep="")
+		names(oob_predict_r)[1] <- coln
 		oob_predict_c <- as.data.frame(cbind((oob_predict_r[,1] > cutoff),oob_predict_r[,2]))
 		names(oob_predict_c)[2] <- "ID"
-		names(oob_predict_c)[1] <- "pred"
+		names(oob_predict_c)[1] <- coln
 		ind<-as.numeric(oob_data[depvarname] != oob_predict_c[,1]) 	
 		err<- sum(ind)/oob_cnt
-		errors[m] <- err                      
+		errors[m] <- err
+		                     
 		oob_predictions_p <- merge(oob_predictions_p,oob_predict_r, by = "ID", all= "TRUE")
 		oob_predictions_c <- merge(oob_predictions_c,oob_predict_c, by = "ID", all= "TRUE")
 		gam_models[[m]] <- gam_model			
