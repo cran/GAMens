@@ -24,7 +24,7 @@
   \item{conf}{the confusion matrix which compares the real versus predicted class memberships, based on the \code{class} object. Obtains value \code{NULL} if the testdata is unlabeled. }
 }
 
-\references{De Bock, K. W., Coussement, K. and Van den Poel, D. (2010): "Ensemble Classification based on generalized additive models". Computational Statistics & Data Analysis, doi:10.1016/j.csda.2009.12.013.
+\references{De Bock, K. W., Coussement, K. and Van den Poel, D. (2010): "Ensemble Classification based on generalized additive models". Computational Statistics & Data Analysis, Vol 54, 6, pp. 1535--1546.
 
   Breiman, L. (1996): "Bagging predictors". Machine Learning, Vol 24, 2, pp. 123--140.
 
@@ -32,7 +32,7 @@
 
   Ho, T. K. (1998): "The random subspace method for constructing decision forests". IEEE Transactions on Pattern Analysis and Machine Intelligence, Vol 20, 8, pp. 832--844.  }
 
-\author{Koen W. De Bock \email{Koen.DeBock@UGent.be}, Kristof Coussement \email{K.Coussement@Ieseg.fr} and Dirk Van den Poel \email{Dirk.VandenPoel@UGent.be} }
+\author{Koen W. De Bock \email{K.DeBock@ieseg.fr}, Kristof Coussement \email{K.Coussement@ieseg.fr} and Dirk Van den Poel \email{Dirk.VandenPoel@ugent.be} }
 
 
 \seealso{ 
