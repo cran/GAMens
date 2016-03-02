@@ -5,14 +5,14 @@
 \title{Runs v-fold cross validation with GAMbag, GAMrsm or GAMens ensemble classifier}
 
 \description{
-	In v-fold cross validation, the data are divided into \code{v} subsets of approximately equal size. Subsequently, 
+	In v-fold cross validation, the data are divided into \code{v} subsets of approximately equal size. Subsequently,
 	one of the \code{v} data parts is excluded while the remainder of the data is used to create a \code{GAMens} object.
 	Predictions are generated for the excluded data part. The process is repeated \code{v} times.
 }
 
 \usage{
-GAMens.cv(formula, data, cv, rsm_size=2, autoform=FALSE, iter=10, 
-	df=4, bagging=TRUE, rsm=TRUE, fusion="avgagg") 
+GAMens.cv(formula, data, cv, rsm_size=2, autoform=FALSE, iter=10,
+	df=4, bagging=TRUE, rsm=TRUE, fusion="avgagg")
 
 }
 
@@ -26,16 +26,16 @@ GAMens.cv(formula, data, cv, rsm_size=2, autoform=FALSE, iter=10,
   \item{cv}{An integer specifying the number of folds in the cross-validation. }
   \item{rsm_size}{an integer, the number of variables to use for random feature subsets used in the Random Subspace Method. Default is 2.
    If \code{rsm=FALSE}, the value of \code{rsm_size} is ignored. }
-  \item{autoform}{ if \code{FALSE} (by default), the model specification in \code{formula} is used. If \code{TRUE}, 
+  \item{autoform}{ if \code{FALSE} (by default), the model specification in \code{formula} is used. If \code{TRUE},
    the function triggers automatic \code{formula} specification. See 'details' for more information.  }
-  \item{iter}{an integer, the number of base (member) classifiers (GAMs) in the ensemble. Defaults to \code{iter=10} 
+  \item{iter}{an integer, the number of base (member) classifiers (GAMs) in the ensemble. Defaults to \code{iter=10}
    base classifiers.  }
   \item{df}{an integer, the number of degrees of freedom (df) used for smoothing spline estimation. Its value
-   is only used when \code{autoform = TRUE}. Defaults to \code{df=4}. Its value is ignored if a formula is 
+   is only used when \code{autoform = TRUE}. Defaults to \code{df=4}. Its value is ignored if a formula is
    specified and \code{autoform} is \code{FALSE}.}
-  \item{bagging}{ enables Bagging if value is \code{TRUE} (default). If \code{FALSE}, 
+  \item{bagging}{ enables Bagging if value is \code{TRUE} (default). If \code{FALSE},
    Bagging is disabled. Either \code{bagging}, \code{rsm} or both should be \code{TRUE}}
-  \item{rsm}{ enables Random Subspace Method (RSM) if value is \code{TRUE} (default). If \code{FALSE}, 
+  \item{rsm}{ enables Random Subspace Method (RSM) if value is \code{TRUE} (default). If \code{FALSE},
    rsm is disabled. Either \code{bagging}, \code{rsm} or both should be \code{TRUE}}
   \item{fusion}{specifies the fusion rule for the aggregation of member classifier outputs in the ensemble. Possible values are
   \code{'avgagg'} for average aggregation (default), \code{'majvote'} for majority voting, \code{'w.avgagg'} for
@@ -54,7 +54,9 @@ GAMens.cv(formula, data, cv, rsm_size=2, autoform=FALSE, iter=10,
   \item{conf}{the confusion matrix which compares the real versus predicted class memberships, based on the \code{class} object. }
 }
 
-\references{De Bock, K. W., Coussement, K. and Van den Poel, D. (2010): "Ensemble Classification based on generalized additive models". Computational Statistics & Data Analysis, Vol 54, 6, pp. 1535--1546.
+\references{De Bock, K. W. and Van den Poel, D. (2012): "Reconciling Performance and Interpretability in Customer Churn Prediction Modeling Using Ensemble Learning Based on Generalized Additive Models". Expert Systems With Applications, Vol 39, 8, pp. 6816--6826.
+
+  De Bock, K. W., Coussement, K. and Van den Poel, D. (2010): "Ensemble Classification based on generalized additive models". Computational Statistics & Data Analysis, Vol 54, 6, pp. 1535--1546.
 
   Breiman, L. (1996): "Bagging predictors". Machine Learning, Vol 24, 2, pp. 123--140.
 
@@ -65,7 +67,7 @@ GAMens.cv(formula, data, cv, rsm_size=2, autoform=FALSE, iter=10,
 \author{Koen W. De Bock \email{K.DeBock@ieseg.fr}, Kristof Coussement \email{K.Coussement@ieseg.fr} and Dirk Van den Poel \email{Dirk.VandenPoel@ugent.be} }
 
 
-\seealso{ 
+\seealso{
        \code{\link{predict.GAMens}},
        \code{\link{GAMens}} }
 
@@ -76,26 +78,15 @@ GAMens.cv(formula, data, cv, rsm_size=2, autoform=FALSE, iter=10,
 library(mlbench)
 data(Sonar)
 
-## Perform 5-fold cross-validation of GAMrsm ensemble on Sonar data 
-## using all variables
-Sonar.cv.GAMrsm <- GAMens.cv(Class~., Sonar ,5, 3 , autoform=TRUE, iter=10, 
-bagging=FALSE,rsm=TRUE )
-
-## Compare classification performance of GAMens and GAMrsm
-## ensembles, using all variables in the Sonar dataset, based on 5-fold 
+## Compare !AUC classification performance of a GAMens ensemble
+## using all variables in the Sonar dataset, based on 5-fold
 ## cross validation runs
-Sonar.cv.GAMens <- GAMens.cv(Class~s(V1,4)+s(V2,3)+s(V3,4)+V4+V5+V6, 
-Sonar ,5, 4 , autoform=FALSE, iter=10 )
-
-Sonar.cv.GAMrsm <- GAMens.cv(Class~s(V1,4)+s(V2,3)+s(V3,4)+V4+V5+V6, 
-Sonar ,5, 4 , autoform=FALSE, iter=10, bagging=FALSE, rsm=TRUE )
+Sonar.cv.GAMens <- GAMens.cv(Class~s(V1,4)+s(V2,3)+s(V3,4)+V4+V5+V6,
+Sonar ,5, 4 , autoform=FALSE, iter=5 )
 
 ## Calculate AUCs (for function colAUC, load caTools library)
 library(caTools)
-GAMens.cv.auc <- colAUC(Sonar.cv.GAMens[[2]], Sonar["Class"]=="R", 
-plotROC=FALSE)
-
-GAMrsm.cv.auc <- colAUC(Sonar.cv.GAMrsm[[2]], Sonar["Class"]=="R", 
+GAMens.cv.auc <- colAUC(Sonar.cv.GAMens[[2]], Sonar["Class"]=="R",
 plotROC=FALSE)
 
 }

@@ -4,12 +4,12 @@
 
 \title{ Applies the GAMbag, GAMrsm or GAMens ensemble classifier to a data set }
 
-\description{ Fits the GAMbag, GAMrsm or GAMens ensemble algorithms for binary classification 
+\description{ Fits the GAMbag, GAMrsm or GAMens ensemble algorithms for binary classification
   using generalized additive models as base classifiers.  }
 
 \usage{
-  GAMens(formula, data, rsm_size=2, autoform=FALSE, iter=10, 
-	df=4, bagging=TRUE, rsm=TRUE, fusion="avgagg") 
+  GAMens(formula, data, rsm_size=2, autoform=FALSE, iter=10,
+	df=4, bagging=TRUE, rsm=TRUE, fusion="avgagg")
 }
 
 \arguments{
@@ -20,16 +20,16 @@
   \item{data}{a data frame in which to interpret the variables named in \code{formula}.  }
   \item{rsm_size}{an integer, the number of variables to use for random feature subsets used in the Random Subspace Method. Default is 2.
    If \code{rsm=FALSE}, the value of \code{rsm_size} is ignored. }
-  \item{autoform}{ if \code{FALSE} (default), the model specification in \code{formula} is used. If \code{TRUE}, 
+  \item{autoform}{ if \code{FALSE} (default), the model specification in \code{formula} is used. If \code{TRUE},
    the function triggers automatic \code{formula} specification. See 'details' for more information.  }
-  \item{iter}{an integer, the number of base classifiers (GAMs) in the ensemble. Defaults to \code{iter=10} 
+  \item{iter}{an integer, the number of base classifiers (GAMs) in the ensemble. Defaults to \code{iter=10}
    base classifiers.  }
   \item{df}{an integer, the number of degrees of freedom (df) used for smoothing spline estimation. Its value
-   is only used when \code{autoform = TRUE}. Defaults to \code{df=4}. Its value is ignored if a formula is 
+   is only used when \code{autoform = TRUE}. Defaults to \code{df=4}. Its value is ignored if a formula is
    specified and \code{autoform} is \code{FALSE}.}
-  \item{bagging}{ enables Bagging if value is \code{TRUE} (default). If \code{FALSE}, 
+  \item{bagging}{ enables Bagging if value is \code{TRUE} (default). If \code{FALSE},
    Bagging is disabled. Either \code{bagging}, \code{rsm} or both should be \code{TRUE}}
-  \item{rsm}{ enables Random Subspace Method (RSM) if value is \code{TRUE} (default). If \code{FALSE}, 
+  \item{rsm}{ enables Random Subspace Method (RSM) if value is \code{TRUE} (default). If \code{FALSE},
    RSM is disabled. Either \code{bagging}, \code{rsm} or both should be \code{TRUE}}
   \item{fusion}{specifies the fusion rule for the aggregation of member classifier outputs in the ensemble. Possible values are
    \code{'avgagg'} (default), \code{'majvote'}, \code{'w.avgagg'} or \code{'w.majvote'}. }
@@ -37,16 +37,16 @@
 
 \details{
   The \code{GAMens} function applies the GAMbag, GAMrsm or GAMens ensemble classifiers (De Bock et al., 2010)  to a data set. GAMens is
-  the default with (\code{bagging=TRUE} and \code{rsm=TRUE}. For GAMbag, \code{rsm} should be specified as \code{FALSE}. 
+  the default with (\code{bagging=TRUE} and \code{rsm=TRUE}. For GAMbag, \code{rsm} should be specified as \code{FALSE}.
   For GAMrsm, \code{bagging} should be \code{FALSE}.
- 
-  The \code{GAMens} function provides the possibility for automatic formula specification. In this case, 
-  dichotomous variables in \code{data} are included as linear terms, and other variables are assumed continuous, 
-  included as nonparametric terms, and estimated by means of smoothing splines. To enable automatic formula specification, 
+
+  The \code{GAMens} function provides the possibility for automatic formula specification. In this case,
+  dichotomous variables in \code{data} are included as linear terms, and other variables are assumed continuous,
+  included as nonparametric terms, and estimated by means of smoothing splines. To enable automatic formula specification,
   use the generic formula \code{[response variable name]~.}  in combination with \code{autoform = TRUE}. Note that in this case,
   all variables available in \code{data} are used in the model. If a formula other than \code{[response variable name]~.}  is specified
   then the \code{autoform} option is automatically overridden. If \code{autoform=FALSE} and the generic formula \code{[response variable name]~.}
-  is specified then the GAMs in the ensemble will not contain nonparametric terms (i.e., will only consist of linear terms). 
+  is specified then the GAMs in the ensemble will not contain nonparametric terms (i.e., will only consist of linear terms).
 
   Four alternative fusion rules for member classifier outputs can be specified. Possible values are
   \code{'avgagg'} for average aggregation (default), \code{'majvote'} for majority voting, \code{'w.avgagg'} for
@@ -57,7 +57,7 @@
 
 \value{
    An object of class \code{GAMens}, which is a list with the following components:
-  \item{GAMs}{the member GAMs in the ensemble.}  
+  \item{GAMs}{the member GAMs in the ensemble.}
   \item{formula}{the formula used tot create the \code{GAMens} object.  }
   \item{iter}{the ensemble size. }
   \item{df}{number of degrees of freedom (df) used for smoothing spline estimation. }
@@ -71,7 +71,9 @@
   \item{weights}{a vector with weights defined as (1 - error rate). Usage depends upon specification of \code{fusion_method}. }
 }
 
-\references{De Bock, K. W., Coussement, K. and Van den Poel, D. (2010): "Ensemble Classification based on generalized additive models". Computational Statistics & Data Analysis, Vol 54, 6, pp. 1535--1546.
+\references{De Bock, K. W. and Van den Poel, D. (2012): "Reconciling Performance and Interpretability in Customer Churn Prediction Modeling Using Ensemble Learning Based on Generalized Additive Models". Expert Systems With Applications, Vol 39, 8, pp. 6816--6826.
+
+  De Bock, K. W., Coussement, K. and Van den Poel, D. (2010): "Ensemble Classification based on generalized additive models". Computational Statistics & Data Analysis, Vol 54, 6, pp. 1535--1546.
 
   Breiman, L. (1996): "Bagging predictors". Machine Learning, Vol 24, 2, pp. 123--140.
 
@@ -82,7 +84,7 @@
 \author{Koen W. De Bock \email{K.DeBock@ieseg.fr}, Kristof Coussement \email{K.Coussement@ieseg.fr} and Dirk Van den Poel \email{Dirk.VandenPoel@ugent.be} }
 
 
-\seealso{ 
+\seealso{
        \code{\link{predict.GAMens}},
        \code{\link{GAMens.cv}} }
 
@@ -92,32 +94,17 @@
 library(mlbench)
 data(Ionosphere)
 
-## Train GAMens using all variables in Ionosphere dataset
-Ionosphere.GAMens <- GAMens(Class~., Ionosphere ,4 , autoform=TRUE, 
-iter=20 )
-
-## Compare classification performance of GAMens, GAMrsm and GAMbag ensembles, 
-## using 4 nonparametric terms and 2 linear terms
-Ionosphere.GAMens <- GAMens(Class~s(V3,4)+s(V4,4)+s(V5,3)+s(V6,5)+V7+V8, 
+## Train a GAMens ensemble,
+## estimated using 4 nonparametric terms and 2 linear terms
+Ionosphere.GAMens <- GAMens(Class~s(V3,4)+s(V4,4)+s(V5,3)+s(V6,5)+V7+V8,
 Ionosphere ,3 , autoform=FALSE, iter=10 )
 
-Ionosphere.GAMrsm <- GAMens(Class~s(V3,4)+s(V4,4)+s(V5,3)+s(V6,5)+V7+V8, 
-Ionosphere ,3 , autoform=FALSE, iter=10, bagging=FALSE, rsm=TRUE )
-
-Ionosphere.GAMbag <- GAMens(Class~s(V3,4)+s(V4,4)+s(V5,3)+s(V6,5)+V7+V8, 
-Ionosphere ,3 , autoform=FALSE, iter=10, bagging=TRUE, rsm=FALSE )
-
-## Calculate AUCs (for function colAUC, load caTools library)
+## Calculate AUC (for function colAUC, load caTools library) for the GAMens model
 library(caTools)
-GAMens.auc <- colAUC(Ionosphere.GAMens[[9]], Ionosphere["Class"]=="good", 
-plotROC=FALSE)
-GAMrsm.auc <- colAUC(Ionosphere.GAMrsm[[9]], Ionosphere["Class"]=="good", 
-plotROC=FALSE)
-GAMbag.auc <- colAUC(Ionosphere.GAMbag[[9]], Ionosphere["Class"]=="good", 
+GAMens.auc <- colAUC(Ionosphere.GAMens[[9]], Ionosphere["Class"]=="good",
 plotROC=FALSE)
 
 }
-
 
 \keyword{models}
 \keyword{classif}

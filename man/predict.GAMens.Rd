@@ -5,7 +5,7 @@
 \title{Predicts from a fitted GAMens object (i.e., GAMbag, GAMrsm or GAMens classifier).}
 
 \description{
-  Generates predictions (classes and class membership probabilities) for observations in a dataframe 
+  Generates predictions (classes and class membership probabilities) for observations in a dataframe
   using a GAMens object (i.e., GAMens, GAMrsm or GAMbag classifier).
 }
 \usage{
@@ -24,7 +24,9 @@
   \item{conf}{the confusion matrix which compares the real versus predicted class memberships, based on the \code{class} object. Obtains value \code{NULL} if the testdata is unlabeled. }
 }
 
-\references{De Bock, K. W., Coussement, K. and Van den Poel, D. (2010): "Ensemble Classification based on generalized additive models". Computational Statistics & Data Analysis, Vol 54, 6, pp. 1535--1546.
+\references{De Bock, K. W. and Van den Poel, D. (2012): "Reconciling Performance and Interpretability in Customer Churn Prediction Modeling Using Ensemble Learning Based on Generalized Additive Models". Expert Systems With Applications, Vol 39, 8, pp. 6816--6826.
+
+  De Bock, K. W., Coussement, K. and Van den Poel, D. (2010): "Ensemble Classification based on generalized additive models". Computational Statistics & Data Analysis, Vol 54, 6, pp. 1535--1546.
 
   Breiman, L. (1996): "Bagging predictors". Machine Learning, Vol 24, 2, pp. 123--140.
 
@@ -35,7 +37,7 @@
 \author{Koen W. De Bock \email{K.DeBock@ieseg.fr}, Kristof Coussement \email{K.Coussement@ieseg.fr} and Dirk Van den Poel \email{Dirk.VandenPoel@ugent.be} }
 
 
-\seealso{ 
+\seealso{
 	\code{\link{GAMens}},
 	\code{\link{GAMens.cv}} }
 
@@ -49,7 +51,7 @@ idx <- c(sample(1:97,60),sample(98:208,70))
 
 ## Train GAMrsm using all variables in Sonar dataset. Generate predictions
 ## for test set observations.
-Sonar.GAMrsm <- GAMens(Class~.,Sonar[idx,], autoform=TRUE, iter=10, 
+Sonar.GAMrsm <- GAMens(Class~.,Sonar[idx,], autoform=TRUE, iter=10,
 bagging=FALSE, rsm=TRUE)
 Sonar.GAMrsm.predict <- predict.GAMens(Sonar.GAMrsm,Sonar[-idx,])
 
@@ -62,15 +64,9 @@ Ionosphere_s <- Ionosphere[order(Ionosphere[,35]),]
 ## Select indexes for training set observations
 idx <- c(sample(1:97,60),sample(98:208,70))
 
-
-## Compare test set classification performance of GAMens, GAMrsm and 
-## GAMbag ensembles, using using 4 nonparametric terms and 2 linear terms in the
+## Train a GAMrsm ensemble classifier
+## using using 4 nonparametric terms and 2 linear terms in the
 ## Ionosphere dataset
-Ionosphere.GAMens <- GAMens(Class~s(V3,4)+s(V4,4)+s(V5,3)+s(V6,5)+V7+V8,
-Ionosphere[idx,], autoform=FALSE, iter=10, bagging=TRUE, rsm=TRUE)
-
-Ionosphere.GAMens.predict <- predict.GAMens(Ionosphere.GAMens,
-Ionosphere[-idx,])
 
 Ionosphere.GAMrsm <- GAMens(Class~s(V3,4)+s(V4,4)+s(V5,3)+s(V6,5)+V7+V8,
 Ionosphere[idx,], autoform=FALSE, iter=10, bagging=FALSE, rsm=TRUE)
@@ -78,21 +74,10 @@ Ionosphere[idx,], autoform=FALSE, iter=10, bagging=FALSE, rsm=TRUE)
 Ionosphere.GAMrsm.predict <- predict.GAMens(Ionosphere.GAMrsm,
 Ionosphere[-idx,])
 
-Ionosphere.GAMbag <- GAMens(Class~s(V3,4)+s(V4,4)+s(V5,3)+s(V6,5)+V7+V8,
-Ionosphere[idx,], autoform=FALSE, iter=10, bagging=TRUE, rsm=FALSE)
-
-Ionosphere.GAMbag.predict <- predict.GAMens(Ionosphere.GAMbag,
-Ionosphere[-idx,])
-
-## Calculate AUCs(for function colAUC, load caTools library)
+## Calculate AUC (for function colAUC, load caTools library) for the GAMrsm model
 library(caTools)
-GAMens.auc <- colAUC(Ionosphere.GAMens.predict[[1]], 
-Ionosphere[-idx,"Class"]=="good", plotROC=FALSE)
 
-GAMrsm.auc <- colAUC(Ionosphere.GAMrsm.predict[[1]], 
-Ionosphere[-idx,"Class"]=="good", plotROC=FALSE)
-
-GAMbag.auc <- colAUC(Ionosphere.GAMbag.predict[[1]], 
+GAMrsm.auc <- colAUC(Ionosphere.GAMrsm.predict[[1]],
 Ionosphere[-idx,"Class"]=="good", plotROC=FALSE)
 
 }
