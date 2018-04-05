@@ -1,6 +1,0 @@
-GAMens                  Applies the GAMbag, GAMrsm or GAMens ensemble
-                        classifier to a data set
-GAMens.cv               Runs v-fold cross validation with GAMbag,
-                        GAMrsm or GAMens ensemble classifier
-predict.GAMens          Predicts from a fitted GAMens object (i.e.,
-                        GAMbag, GAMrsm or GAMens classifier).
